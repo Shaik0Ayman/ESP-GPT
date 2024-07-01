@@ -190,11 +190,8 @@ Modify the function to parse the JSON response correctly and extract the relevan
 
 ## Example Use Cases
 - Portable AI assistant
-- Smart IoT devices with language capabilities
-- Educational tools for learning about AI and microcontrollers
-- Troubleshooting
-- Wi-Fi Connection Issues:
-
+- Smart IoT devices with AI integration
+- Instant Solution provider
 ## Troubleshooting
 - Ensure the SSID and password are correct.
 - Check Wi-Fi signal strength.
@@ -207,7 +204,9 @@ API Request Failures:
 - Inspect the response code and error messages.
 
 ## Future Improvements
-- Add a touchscreen for better interactivity.
+- Add built-in Internet.
+- customize the LLM
+- Integrate sensor data
 - Integrate voice input and output.
 - Optimize the code for lower power consumption.
 
