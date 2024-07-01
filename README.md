@@ -77,7 +77,7 @@ Get OpenAI API Key:
 Sign up for an account at OpenAI.
 Obtain an API key from the API section of your account.
 Code to Connect to Wi-Fi and OpenAI:
-
+'''
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Adafruit_GFX.h>
@@ -173,7 +173,7 @@ void displayResponse(String response) {
   display.print(response);
   display.display();
 }
-
+'''
 Example Use Cases:
 - Text generation: Generate creative writing, poetry, or stories.
 - Chatbot: Create a conversational interface with the language model.
