@@ -9,11 +9,12 @@ ESP-GPT is a project designed to leverage the ESP32 microcontroller to connect t
 3. [Software Requirements](#software-requirements)
 4. [Setting Up the ESP32](#setting-up-the-esp32)
 5. [Connecting to OpenAI](#connecting-to-openai)
-6. [Displaying Output on the OLED](#displaying-output-on-the-oled)
-7. [Example Use Cases](#example-use-cases)
-8. [Troubleshooting](#troubleshooting)
-9. [Future Improvements](#future-improvements)
-10. [References](#references)
+6. [HTML for the prompt sender](#HTML-for-the-prompt-sender)
+7. [Displaying Output on the OLED](#displaying-output-on-the-oled)
+8. [Example Use Cases](#example-use-cases)
+9. [Troubleshooting](#troubleshooting)
+10. [Future Improvements](#future-improvements)
+11. [References](#references)
 
 ## Introduction
 
@@ -89,22 +90,27 @@ void setup() {
   display.print("Connecting to WiFi...");
   display.display();
 
-  // Connect to Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.println("Connected to WiFi");
-
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.print("WiFi Connected");
-  display.display();
-
-  // Call OpenAI API
-  makeOpenAIRequest();
-}
+void WiFiConnect(void){
+    WiFi.begin(ssid, password);
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected!");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.println("CONNECT TO");
+    display.println(WiFi.localIP());
+    display.display();
+    currentState = do_webserver_index;
+    delay(5000);
 
 void loop() {
 }
@@ -143,6 +149,39 @@ void displayResponse(String response) {
   display.display();
 }
 ```
+## HTML for the prompt sender
+```
+const char html_page[] PROGMEM = {
+    "HTTP/1.1 200 OK\r\n"
+    "Content-Type: text/html\r\n"
+    "Connection: close\r\n"  // the connection will be closed after completion of the response
+    //"Refresh: 1\r\n"         // refresh the page automatically every n sec
+    "\r\n"
+    "<!DOCTYPE HTML>\r\n"
+    "<html>\r\n"
+    "<head>\r\n"
+      "<meta charset=\"UTF-8\">\r\n"
+      "<title>PROMPT SENDER</title>\r\n"
+      "<link rel=\"icon\" href=\"https://files.seeedstudio.com/wiki/xiaoesp32c3-chatgpt/chatgpt-logo.png\" type=\"image/x-icon\">\r\n"
+    "</head>\r\n"
+    "<body>\r\n"
+    "<p style=\"text-align:center;\">\r\n"
+    "<img alt=\"ChatGPT\" src=\"https://files.seeedstudio.com/wiki/xiaoesp32c3-chatgpt/chatgpt-logo.png\" height=\"200\" width=\"200\">\r\n"
+    "<h1 align=\"center\">OpenAI ChatGPT</h1>\r\n" 
+    "<h1 align=\"center\">SEND YOUR PROMPTS TO YOUR ESP FROM HERE</h1>\r\n" 
+    "<div style=\"text-align:center;vertical-align:middle;\">"
+    "<form action=\"/\" method=\"post\">"
+    "<input type=\"text\" placeholder=\"Please enter your question\" size=\"35\" name=\"chatgpttext\" required=\"required\"/>\r\n"
+    "<input type=\"submit\" value=\"Submit\" style=\"height:30px; width:80px;\"/>"
+    "</form>"
+    "</div>"
+    "</p>\r\n"
+    "</body>\r\n"
+    "<html>\r\n"
+};
+```
+
+
 ## Displaying Output on the OLED
 
 The displayResponse function in the code above handles parsing and displaying the response from OpenAI on the OLED screen.
