@@ -9,7 +9,6 @@ ESP-GPT is a project designed to leverage the ESP32 microcontroller to connect t
 3. [Software Requirements](#software-requirements)
 4. [Setting Up the ESP32](#setting-up-the-esp32)
 5. [Connecting to OpenAI](#connecting-to-openai)
-6. [HTML for the prompt sender](#HTML-for-the-prompt-sender)
 7. [Displaying Output on the OLED](#displaying-output-on-the-oled)
 8. [Example Use Cases](#example-use-cases)
 9. [Troubleshooting](#troubleshooting)
@@ -149,8 +148,10 @@ void displayResponse(String response) {
   display.display();
 }
 ```
-## HTML for the prompt sender
-```
+## HTML code for the prompt sender
+- the following code will give the user a webpage on the local network to use ESP-GPT
+
+```cpp
 const char html_page[] PROGMEM = {
     "HTTP/1.1 200 OK\r\n"
     "Content-Type: text/html\r\n"
